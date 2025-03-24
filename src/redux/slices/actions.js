@@ -3,7 +3,8 @@ import client from "../../GraphQL/Apollo/client";
 import { GET_MESSAGE } from "../../GraphQL/Operations/queries";
 import {
     CONVERT_TO_UPPERCASE,
-    CONVERT_TO_LOWERCASE
+    CONVERT_TO_LOWERCASE,
+    CLEAR_TEXT
 } from "../../GraphQL/Operations/mutations";
 
 export const getMessage = createAsyncThunk(
@@ -48,6 +49,7 @@ export const convertToUpperCase = createAsyncThunk(
         }
     }
 );
+
 export const convertToLowerCase = createAsyncThunk(
     "textUtility/convertToLowerCase",
     async ({ text }, { rejectWithValue }) => {
@@ -65,6 +67,27 @@ export const convertToLowerCase = createAsyncThunk(
             return response.data.convertToLowerCase.text;
         } catch (error) {
             console.error("convertToLowerCase error:", error);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const clearText = createAsyncThunk(
+    "textUtility/clearText",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await client.mutate({
+                mutation: CLEAR_TEXT,
+            })
+
+            if (!response.data || !response.data.clearText) {
+                throw new Error("Invalid response from clearText mutation");
+            }
+
+            console.log("Response received:", response.data.clearText);
+            return response.data.clearText.text;
+        } catch (error) {
+            console.error("clearText error:", error);
             return rejectWithValue(error.message);
         }
     }

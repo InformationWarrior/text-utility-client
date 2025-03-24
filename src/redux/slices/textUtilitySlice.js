@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     getMessage,
     convertToUpperCase,
-    convertToLowerCase
+    convertToLowerCase,
+    clearText
 } from "../slices/actions";
 
 const initialState = {
@@ -60,6 +61,18 @@ const textUtilitySlice = createSlice({
                 state.text = action.payload;
             })
             .addCase(convertToLowerCase.rejected, (state, action) => {
+                state.networkStatus.loading = false;
+                state.networkStatus.error = action.payload;
+            })
+            .addCase(clearText.pending, (state) => {
+                state.networkStatus.loading = true;
+                state.networkStatus.error = null;
+            })
+            .addCase(clearText.fulfilled, (state, action) => {
+                state.networkStatus.loading = false;
+                state.text = action.payload;
+            })
+            .addCase(clearText.rejected, (state, action) => {
                 state.networkStatus.loading = false;
                 state.networkStatus.error = action.payload;
             });

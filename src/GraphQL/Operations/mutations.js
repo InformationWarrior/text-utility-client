@@ -15,3 +15,11 @@ export const CONVERT_TO_LOWERCASE = gql`
     }
   }
 `;
+
+export const CLEAR_TEXT = gql`
+  mutation ClearText {
+    clearText {
+      text
+    }
+  }
+`;

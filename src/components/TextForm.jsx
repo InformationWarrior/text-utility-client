@@ -4,6 +4,7 @@ import { setText } from "../redux/slices/textUtilitySlice";
 import {
   convertToUpperCase,
   convertToLowerCase,
+  clearText,
 } from "../redux/slices/actions";
 
 function TextForm(props) {
@@ -18,6 +19,10 @@ function TextForm(props) {
   const handleLowerClick = () => {
     if (text) dispatch(convertToLowerCase({ text }));
     else dispatch(convertToLowerCase({ text: "No text entered" }));
+  };
+
+  const handleClearClick = () => {
+    if (text) dispatch(clearText({ text }));
   };
 
   const handleOnChange = (event) => {
@@ -42,6 +47,9 @@ function TextForm(props) {
         </button>
         <button className="btn btn-primary mx-1" onClick={handleLowerClick}>
           Convert to Lowercase
+        </button>
+        <button className="btn btn-primary mx-1" onClick={handleClearClick}>
+          Clear Text
         </button>
       </div>
       <div className="container my-3">
