@@ -4,12 +4,14 @@ import {
     convertToUpperCase,
     convertToLowerCase,
     checkPalindrome,
+    subscribeToTimer,
     clearText
 } from "../slices/actions";
 
 const initialState = {
     message: null,
     text: "Enter text here.",
+    timer: null,
     networkStatus: {
         loading: false,
         error: null,
@@ -25,6 +27,9 @@ const textUtilitySlice = createSlice({
         },
         setText(state, action) {
             state.text = action.payload;
+        },
+        timerUpdated(state, action) {
+            state.timer = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -95,6 +100,7 @@ const textUtilitySlice = createSlice({
 export const {
     setMessage,
     setText,
+    timerUpdated
 } = textUtilitySlice.actions;
 
 export default textUtilitySlice.reducer;

@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import client from "../../GraphQL/Apollo/client";
+import { timerUpdated } from "./textUtilitySlice";
+import { formatTime } from "../../Utils/formatTime";
 import { GET_MESSAGE } from "../../GraphQL/Operations/queries";
 import {
     CONVERT_TO_UPPERCASE,
@@ -7,6 +9,7 @@ import {
     CHECK_PALINDROME,
     CLEAR_TEXT
 } from "../../GraphQL/Operations/mutations";
+import { TIMER_SUBSCRIPTION } from "../../GraphQL/Operations/subscriptions";
 
 export const getMessage = createAsyncThunk(
     "textUtility/getMessage",
@@ -28,6 +31,25 @@ export const getMessage = createAsyncThunk(
         }
     }
 );
+
+export const subscribeToTimer = () => (dispatch) => {
+    const observable = client.subscribe({
+        query: TIMER_SUBSCRIPTION,
+    });
+
+    observable.subscribe({
+        next({ data }) {
+            if (data?.timerRunning) {
+                const formattedTime = formatTime(data.timerRunning.timeRemaining);
+                dispatch(timerUpdated(formattedTime));
+            }
+        },
+        error(error) {
+            console.error("Subscription error:", error);
+        },
+    });
+};
+
 
 export const convertToUpperCase = createAsyncThunk(
     "textUtility/convertToUpperCase",
@@ -115,4 +137,3 @@ export const clearText = createAsyncThunk(
         }
     }
 );
-
