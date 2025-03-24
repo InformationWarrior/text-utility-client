@@ -1,17 +1,24 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import routesConfig from "./routes/routesConfig";
 import Navbar from "./components/Navbar";
-import TextForm from "./components/TextForm";
 import TimerComponent from "./components/TimerComponent";
 
 function App() {
   return (
     <div className="App">
       <Navbar title="Text Utility" />
-      <TextForm heading="Enter the text to analyze below." />
-      <div>
-        <h1>GraphQL Timer Subscription</h1>
-        <TimerComponent duration={1800} />
-      </div>
+      <TimerComponent />
+      <Routes>
+        {routesConfig.map((route, index) => (
+          <Route
+            key={index}
+            title={route.title}
+            path={route.path}
+            element={route.element}
+          />
+        ))}
+      </Routes>
     </div>
   );
 }

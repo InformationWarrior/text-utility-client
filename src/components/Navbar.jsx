@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import routesConfig from "../routes/routesConfig";
 
-function Navbar(props) {
+function Navbar({ title }) {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
-          {props.title}
-        </a>
+        <NavLink className="navbar-brand" to="/">
+          {title}
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,16 +23,17 @@ function Navbar(props) {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="/">
-                Home
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/">
-                About
-              </a>
-            </li>
+            {routesConfig.map((route, index) => (
+              <li className="nav-item" key={index}>
+                <NavLink 
+                  className="nav-link" 
+                  to={route.path} 
+                  activeclassname="active"
+                >
+                  {route.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

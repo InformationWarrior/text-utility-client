@@ -10,7 +10,14 @@ const TimerComponent = () => {
     dispatch(subscribeToTimer());
   }, [dispatch]);
 
-  return <div>Timer: {timer !== null ? timer : "Waiting for updates..."}</div>;
+  return (
+    <div className="container">
+      <div>
+        <h3>GraphQL Timer Subscription</h3>
+        Timer: {timer !== null ? timer : "Waiting for updates..."}
+      </div>
+    </div>
+  );
 };
 
 export default TimerComponent;
