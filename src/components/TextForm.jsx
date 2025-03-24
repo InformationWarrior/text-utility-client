@@ -4,6 +4,7 @@ import { setText } from "../redux/slices/textUtilitySlice";
 import {
   convertToUpperCase,
   convertToLowerCase,
+  checkPalindrome,
   clearText,
 } from "../redux/slices/actions";
 
@@ -13,12 +14,17 @@ function TextForm(props) {
 
   const handleUpClick = () => {
     if (text) dispatch(convertToUpperCase({ text }));
-    else dispatch(convertToUpperCase({ text: "No text entered" }));
+    else dispatch(setText("No text entered"));
   };
 
   const handleLowerClick = () => {
     if (text) dispatch(convertToLowerCase({ text }));
-    else dispatch(convertToLowerCase({ text: "No text entered" }));
+    else dispatch(setText("No text entered"));
+  };
+
+  const handlePalindromeClick = () => {
+    if (text) dispatch(checkPalindrome({ text }));
+    else dispatch(setText("No text entered"));
   };
 
   const handleClearClick = () => {
@@ -47,6 +53,12 @@ function TextForm(props) {
         </button>
         <button className="btn btn-primary mx-1" onClick={handleLowerClick}>
           Convert to Lowercase
+        </button>
+        <button
+          className="btn btn-primary mx-1"
+          onClick={handlePalindromeClick}
+        >
+          Is Palindrome
         </button>
         <button className="btn btn-primary mx-1" onClick={handleClearClick}>
           Clear Text

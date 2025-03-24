@@ -3,6 +3,7 @@ import {
     getMessage,
     convertToUpperCase,
     convertToLowerCase,
+    checkPalindrome,
     clearText
 } from "../slices/actions";
 
@@ -73,6 +74,18 @@ const textUtilitySlice = createSlice({
                 state.text = action.payload;
             })
             .addCase(clearText.rejected, (state, action) => {
+                state.networkStatus.loading = false;
+                state.networkStatus.error = action.payload;
+            })
+            .addCase(checkPalindrome.pending, (state) => {
+                state.networkStatus.loading = true;
+                state.networkStatus.error = null;
+            })
+            .addCase(checkPalindrome.fulfilled, (state, action) => {
+                state.networkStatus.loading = false;
+                state.text = action.payload;
+            })
+            .addCase(checkPalindrome.rejected, (state, action) => {
                 state.networkStatus.loading = false;
                 state.networkStatus.error = action.payload;
             });

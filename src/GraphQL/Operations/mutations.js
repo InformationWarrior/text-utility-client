@@ -16,6 +16,14 @@ export const CONVERT_TO_LOWERCASE = gql`
   }
 `;
 
+export const CHECK_PALINDROME = gql`
+  mutation CheckPalindrome($text: String!) {
+    checkPalindrome(text: $text) {
+      text
+    }
+  }
+`;
+
 export const CLEAR_TEXT = gql`
   mutation ClearText {
     clearText {

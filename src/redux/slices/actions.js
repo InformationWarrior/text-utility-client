@@ -4,6 +4,7 @@ import { GET_MESSAGE } from "../../GraphQL/Operations/queries";
 import {
     CONVERT_TO_UPPERCASE,
     CONVERT_TO_LOWERCASE,
+    CHECK_PALINDROME,
     CLEAR_TEXT
 } from "../../GraphQL/Operations/mutations";
 
@@ -72,6 +73,28 @@ export const convertToLowerCase = createAsyncThunk(
     }
 );
 
+export const checkPalindrome = createAsyncThunk(
+    "textUtility/checkPalindrome",
+    async ({ text }, { rejectWithValue }) => {
+        try {
+            const response = await client.mutate({
+                mutation: CHECK_PALINDROME,
+                variables: { text },
+            })
+
+            if (!response.data || !response.data.checkPalindrome) {
+                throw new Error("Invalid response from checkPalindrome mutation");
+            }
+
+            console.log("Response received:", response.data.checkPalindrome);
+            return response.data.checkPalindrome.text;
+        } catch (error) {
+            console.error("checkPalindrome error:", error);
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 export const clearText = createAsyncThunk(
     "textUtility/clearText",
     async (_, { rejectWithValue }) => {
@@ -92,3 +115,4 @@ export const clearText = createAsyncThunk(
         }
     }
 );
+
