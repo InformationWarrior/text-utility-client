@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {
+    getMessage,
+    convertToUpperCase,
+    convertToLowerCase
+} from "../slices/actions";
 
-import { getMessage } from "../slices/actions";
 const initialState = {
     message: null,
+    text: "Enter text here.",
     networkStatus: {
         loading: false,
         error: null,
@@ -15,7 +20,10 @@ const textUtilitySlice = createSlice({
     reducers: {
         setMessage(state, action) {
             state.message = action.payload;
-        }
+        },
+        setText(state, action) {
+            state.text = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -30,12 +38,37 @@ const textUtilitySlice = createSlice({
             .addCase(getMessage.rejected, (state, action) => {
                 state.networkStatus.loading = false;
                 state.networkStatus.error = action.payload;
+            })
+            .addCase(convertToUpperCase.pending, (state) => {
+                state.networkStatus.loading = true;
+                state.networkStatus.error = null;
+            })
+            .addCase(convertToUpperCase.fulfilled, (state, action) => {
+                state.networkStatus.loading = false;
+                state.text = action.payload;
+            })
+            .addCase(convertToUpperCase.rejected, (state, action) => {
+                state.networkStatus.loading = false;
+                state.networkStatus.error = action.payload;
+            })
+            .addCase(convertToLowerCase.pending, (state) => {
+                state.networkStatus.loading = true;
+                state.networkStatus.error = null;
+            })
+            .addCase(convertToLowerCase.fulfilled, (state, action) => {
+                state.networkStatus.loading = false;
+                state.text = action.payload;
+            })
+            .addCase(convertToLowerCase.rejected, (state, action) => {
+                state.networkStatus.loading = false;
+                state.networkStatus.error = action.payload;
             });
     },
 });
 
 export const {
     setMessage,
+    setText,
 } = textUtilitySlice.actions;
 
 export default textUtilitySlice.reducer;

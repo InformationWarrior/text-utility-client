@@ -1,12 +1,12 @@
 import "./App.css";
-import Component from "./components/Component";
 import Navbar from "./components/Navbar";
+import TextForm from "./components/TextForm";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <Component />
+      <Navbar title="Text Utility" />
+      <TextForm heading="Enter the text to analyze below." />
     </div>
   );
 }
